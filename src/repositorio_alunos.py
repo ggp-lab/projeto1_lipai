@@ -8,51 +8,59 @@ SEPARADOR = ";"
 
 def salvar_aluno(aluno: Aluno) -> None:
     """
-    Salva um aluno no arquivo de alunos
+    Salva um aluno no arquivo alunos.csv.
+    Não retorna nada.
     """
-    with open(ARQUIVO_ALUNOS, "a", encoding="utf-8") as arquivo_alunos:
-        linha_formatada = (
-            f"{aluno.id}{SEPARADOR}"
-            f"{aluno.nome}{SEPARADOR}"
-            f"{aluno.email}\n"
-        )
-        arquivo_alunos.write(linha_formatada)
+    with open(ARQUIVO_ALUNOS, "a", encoding="utf-8") as arquivo:
+        linha = f"{aluno.id}{SEPARADOR}{aluno.nome}{SEPARADOR}{aluno.email}\n"
+        arquivo.write(linha)
 
 
-def obter_todos_os_alunos() -> list:
+def listar_alunos() -> list[Aluno]:
     """
-    Retorna uma lista com todos os alunos cadastrados
+    Retorna uma lista de objetos Aluno cadastrados.
     """
-    lista_alunos = []
+    alunos = []
 
     try:
-        with open(ARQUIVO_ALUNOS, "r", encoding="utf-8") as arquivo_alunos:
-            for linha in arquivo_alunos:
+        with open(ARQUIVO_ALUNOS, "r", encoding="utf-8") as arquivo:
+            for linha in arquivo:
                 linha = linha.strip()
 
-                if not linha:
+                if linha == "":
                     continue
 
                 identificador, nome, email = linha.split(SEPARADOR)
                 aluno = Aluno(identificador, nome, email)
-                lista_alunos.append(aluno)
+                alunos.append(aluno)
 
     except FileNotFoundError:
         # Arquivo ainda não existe
         pass
 
-    return lista_alunos
+    return alunos
 
 
-def encontrar_aluno_por_id(id_procurado: str):
+def buscar_aluno_por_id(id_procurado: str) -> Aluno | None:
+
     """
-    Procura um aluno pelo ID
-    Retorna um objeto Aluno ou None
+    Busca um aluno pelo ID.
+    Retorna o Aluno encontrado ou None.
     """
-    alunos_cadastrados = obter_todos_os_alunos()
+    try:
+        with open(ARQUIVO_ALUNOS, "r", encoding="utf-8") as arquivo:
+            for linha in arquivo:
+                linha = linha.strip()
 
-    for aluno in alunos_cadastrados:
-        if aluno.id == id_procurado:
-            return aluno
+                if linha == "":
+                    continue
+
+                identificador, nome, email = linha.split(SEPARADOR)
+
+                if identificador == id_procurado:
+                    return Aluno(identificador, nome, email)
+
+    except FileNotFoundError:
+        pass
 
     return None

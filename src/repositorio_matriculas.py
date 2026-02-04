@@ -1,7 +1,7 @@
-'''Ler e escrever matriculas'''
+"""Repositório de Matrículas: escrita e leitura em arquivo CSV"""
 
 from models import Matricula
-from repositorio_alunos import encontrar_aluno_por_id
+from repositorio_alunos import buscar_aluno_por_id
 from repositorio_cursos import buscar_curso_por_codigo
 
 CAMINHO_MATRICULAS = "data/matriculas.csv"
@@ -10,7 +10,8 @@ SEPARADOR = ";"
 
 def cadastrar_matricula(matricula: Matricula) -> None:
     """
-    Salva uma matrícula no arquivo matriculas.csv
+    Salva uma matrícula no arquivo matriculas.csv.
+    Não retorna nada.
     """
     with open(CAMINHO_MATRICULAS, "a", encoding="utf-8") as arquivo:
         linha = (
@@ -23,9 +24,9 @@ def cadastrar_matricula(matricula: Matricula) -> None:
         arquivo.write(linha)
 
 
-def listar_matriculas() -> list:
+def listar_matriculas() -> list[Matricula]:
     """
-    Retorna uma lista de objetos Matricula.
+    Retorna uma lista de objetos Matricula cadastrados.
     """
     matriculas = []
 
@@ -37,26 +38,24 @@ def listar_matriculas() -> list:
                 if linha == "":
                     continue
 
-                (
-                    id_matricula,
-                    id_aluno,
-                    codigo_curso,
-                    data_matricula,
-                    status,
-                ) = linha.split(SEPARADOR)
+                id_matricula, id_aluno, codigo_curso, data, status = linha.split(
+                    SEPARADOR
+                )
 
-                aluno = encontrar_aluno_por_id(id_aluno)
+                aluno = buscar_aluno_por_id(id_aluno)
                 curso = buscar_curso_por_codigo(codigo_curso)
 
-                if aluno is not None and curso is not None:
-                    matricula = Matricula(
-                        id_matricula,
-                        aluno,
-                        curso,
-                        data_matricula,
-                        status,
-                    )
-                    matriculas.append(matricula)
+                if aluno is None or curso is None:
+                    continue
+
+                matricula = Matricula(
+                    id_matricula,
+                    aluno,
+                    curso,
+                    data,
+                    status,
+                )
+                matriculas.append(matricula)
 
     except FileNotFoundError:
         # Arquivo ainda não existe
@@ -65,26 +64,31 @@ def listar_matriculas() -> list:
     return matriculas
 
 
-def listar_matriculas_por_aluno(id_aluno: str) -> list:
+def listar_matriculas_por_aluno(id_aluno: str) -> list[Matricula]:
     """
     Retorna todas as matrículas de um aluno.
     """
-    return [
-        matricula
-        for matricula in listar_matriculas()
-        if matricula.aluno.id == id_aluno
-    ]
+    matriculas_do_aluno = []
+
+    for matricula in listar_matriculas():
+        if matricula.aluno.id == id_aluno:
+            matriculas_do_aluno.append(matricula)
+
+    return matriculas_do_aluno
 
 
-def listar_matriculas_por_curso(codigo_curso: str) -> list:
+def listar_matriculas_por_curso(codigo_curso: str) -> list[Matricula]:
     """
     Retorna todas as matrículas de um curso.
     """
-    return [
-        matricula
-        for matricula in listar_matriculas()
-        if matricula.curso.codigo == codigo_curso
-    ]
+    matriculas_do_curso = []
+
+    for matricula in listar_matriculas():
+        if matricula.curso.codigo == codigo_curso:
+            matriculas_do_curso.append(matricula)
+
+    return matriculas_do_curso
+
 
 def gerar_id_matricula() -> str:
     """

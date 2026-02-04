@@ -8,14 +8,19 @@ SEPARADOR = ";"
 
 def cadastrar_curso(curso: Curso) -> None:
     """
-    Salva um curso no arquivo cursos.csv
+    Salva um curso no arquivo cursos.csv.
+    Não retorna nada.
     """
     with open(CAMINHO_CURSOS, "a", encoding="utf-8") as arquivo:
-        linha = f"{curso.codigo}{SEPARADOR}{curso.nome}{SEPARADOR}{curso.carga_horaria}\n"
+        linha = (
+            f"{curso.codigo}{SEPARADOR}"
+            f"{curso.nome}{SEPARADOR}"
+            f"{curso.carga_horaria}\n"
+        )
         arquivo.write(linha)
 
 
-def listar_cursos() -> list:
+def listar_cursos() -> list[Curso]:
     """
     Retorna uma lista de objetos Curso cadastrados.
     """
@@ -34,19 +39,31 @@ def listar_cursos() -> list:
                 cursos.append(curso)
 
     except FileNotFoundError:
-        # Caso o arquivo ainda não exista
+        # Arquivo ainda não existe
         pass
 
     return cursos
 
 
-def buscar_curso_por_codigo(codigo: str):
+def buscar_curso_por_codigo(codigo: str) -> Curso | None:
     """
     Busca um curso pelo código.
-    Retorna o Curso ou None.
+    Retorna o Curso encontrado ou None.
     """
-    for curso in listar_cursos():
-        if curso.codigo == codigo:
-            return curso
+    try:
+        with open(CAMINHO_CURSOS, "r", encoding="utf-8") as arquivo:
+            for linha in arquivo:
+                linha = linha.strip()
+
+                if linha == "":
+                    continue
+
+                cod, nome, carga_horaria = linha.split(SEPARADOR)
+
+                if cod == codigo:
+                    return Curso(cod, nome, carga_horaria)
+
+    except FileNotFoundError:
+        pass
 
     return None
