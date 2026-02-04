@@ -2,47 +2,52 @@
 
 ## Descrição do Projeto
 
-Este projeto tem como objetivo desenvolver um sistema simples em Python para
-gerenciar cursos, alunos e suas matrículas. O sistema permite o cadastro e a
-listagem de cursos e alunos, além de realizar matrículas e consultar os vínculos
-entre alunos e cursos.
+Este projeto implementa um sistema simples em Python para gerenciar cursos, alunos e matrículas.  
+O sistema resolve o problema de organizar e consultar registros de alunos e cursos de forma automatizada, permitindo que uma escola ou instituição acompanhe os alunos matriculados em cada curso e quais cursos cada aluno está realizando.  
 
-O projeto foi desenvolvido como atividade acadêmica, utilizando conceitos de
-programação estruturada, programação orientada a objetos e manipulação de
-arquivos.
-
----
+O projeto foi desenvolvido como atividade acadêmica, utilizando programação orientada a objetos e manipulação de arquivos CSV.
 
 ## Funcionalidades
 
-- Cadastrar cursos
-- Listar cursos cadastrados
-- Cadastrar alunos
-- Listar alunos cadastrados
-- Matricular um aluno em um curso
-- Listar alunos matriculados em um curso
-- Listar cursos em que um aluno está matriculado
+- Cadastrar cursos  
+- Listar cursos cadastrados  
+- Cadastrar alunos  
+- Listar alunos cadastrados  
+- Matricular um aluno em um curso  
+- Listar alunos matriculados em um curso  
+- Listar cursos em que um aluno está matriculado  
 
+## Estrutura de Diretórios
 
----
+projeto/  
+├─ src/                # Código-fonte do sistema  
+│   ├─ main.py  
+│   ├─ models.py  
+│   ├─ repositorio_cursos.py  
+│   ├─ repositorio_alunos.py  
+│   └─ repositorio_matriculas.py  
+├─ data/               # Arquivos CSV gerados automaticamente  
+│   ├─ cursos.csv  
+│   ├─ alunos.csv  
+│   └─ matriculas.csv  
+└─ README.md           # Este arquivo  
 
 ## Como Executar o Projeto
 
-1. Certifique-se de ter o Python 3 instalado na máquina.
-2. Clone o repositório ou baixe os arquivos do projeto.
-3. No terminal, navegue até a pasta `src`:
-4. Execute o arquivo principal.
-5. Utilize os menus exibidos no terminal para interagir com o sistema.
-
----
+1. Certifique-se de ter o Python 3 instalado.  
+2. Clone o repositório:  
+   `git clone <URL_DO_REPOSITORIO>`  
+3. Navegue até a pasta `src`:  
+   `cd projeto/src`  
+4. Execute o sistema:  
+   `python main.py`  
+5. Use os menus exibidos no terminal para interagir com o sistema.  
 
 ## Observações
 
-- Os arquivos CSV são criados e atualizados automaticamente na pasta `data`.
-- O sistema funciona totalmente em modo texto (terminal).
-- Não é necessário instalar bibliotecas externas.
-
-
+- Os arquivos CSV são criados automaticamente na pasta `data`.  
+- O sistema funciona totalmente em modo texto (terminal).  
+- Nenhuma biblioteca externa é necessária.  
 
 
 
