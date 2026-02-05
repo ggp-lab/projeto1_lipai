@@ -7,18 +7,16 @@ import repositorio_cursos
 import repositorio_alunos
 import repositorio_matriculas
 
-
-def menu_principal():
-    print("\n=== MENU PRINCIPAL ===")
-    print("1 - Cursos")
-    print("2 - Alunos")
-    print("3 - Matrículas")
-    print("0 - Sair")
-
-
 def main():
     while True:
-        menu_principal()
+        
+        print("\n=== MENU PRINCIPAL ===")
+        print("1 - Cursos")
+        print("2 - Alunos")
+        print("3 - Matrículas")
+        print("0 - Sair")
+
+
         opcao = input("Escolha uma opção: ")
 
         if opcao == "1":
